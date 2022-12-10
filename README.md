@@ -12,7 +12,7 @@ Microcontroller/CPU designs will have the following structure to make it easy to
 
 The company will always be OAK for any designs I make. If you branch and decide to use this as a base, please update the company name.
 
-The starting number will either be an `8`, `1`, `3`, or a `6' to denote `8 bit`, `16 bit`, `32 bit`, or `64 bit` respectively. `6` is reserved for CPU devices only.
+The starting number will either be an `8`, `1`, `3`, or a `6` to denote `8 bit`, `16 bit`, `32 bit`, or `64 bit` respectively. `6` is reserved for CPU devices only.
 CPUs and MCU can all start with `8`, `1`, and `32`.
 
 ### Instruction Set ###
