@@ -34,7 +34,7 @@ This current implementation on the ICE5LP4K is meant to be driven with an extern
 |   4'b1011  | LOAD FLS| 6'b FLS SRC 4'b DST|
 |   4'b1100  | STRE FLS| 4'b SRC 6'b FLS DST|
 |   4'b1101  | JMP     | 8'b PC Location    |
-|   4'b1110  | JNE     | 8'b PC Location    |
-|   4'b1111  | JEQ     | 8'b PC Location    |
+|   4'b1110  | JNE     | 2x 4'b int 8'b PC  |
+|   4'b1111  | JEQ     | 2x 4'b int 8'b PC  |
 
 Additional details are coming soon include system block diagram!
