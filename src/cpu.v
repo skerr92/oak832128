@@ -1,9 +1,6 @@
-module top(dout, frame,
-  LED_R, LED_G, LED_B, LED);
+module top(dout, frame);
 
-wire [2:0] leds;
 input [16:0] frame;
-output LED_R, LED_G, LED_B, LED;
 output [7:0] dout;
 reg [7:0] dout;
 reg [3:0] instruction = 4'hF;
@@ -20,33 +17,13 @@ initial begin
   $readmemh("../ram.ini",mem);
   $readmemh("../flash.ini",flash);
 end
-SB_IO_OD #(             // open drain IP instance
-.PIN_TYPE(6'b011001)  // configure as output
-) pin_out_driver (
-.PACKAGEPIN(LED_B), // connect to this pin
-.DOUT0(leds[0])           // output the state of "led"
-);
-
-SB_IO_OD #(             // open drain IP instance
-.PIN_TYPE(6'b011001)  // configure as output
-) pin_out_driver2 (
-.PACKAGEPIN(LED_G), // connect to this pin
-.DOUT0(leds[1])           // output the state of "led"
-);
-
-SB_IO_OD #(             // open drain IP instance
-.PIN_TYPE(6'b011001)  // configure as output
-) pin_out_driver3 (
-.PACKAGEPIN(LED_R), // connect to this pin
-.DOUT0(leds[2])           // output the state of "led"
-);
 
 wire sysclk;
 
-SB_HFOSC #(.CLKHF_DIV("0b00")) osc (
-.CLKHFEN(1'b1),
-.CLKHFPU(1'b1),
-.CLKHF(sysclk) 
+SB_LFOSC osc (
+.CLKLFEN(1'b1),
+.CLKLFPU(1'b1),
+.CLKLF(sysclk) 
 ) /* synthesis ROUTE_THROUGH_FABRIC = 0 */;
 
 assign leds  = {~instruction[2:0]};
@@ -60,10 +37,11 @@ begin
     begin
        regfile [(i)] <= 8'h00;
     end
-    instruction = 4'h0;
+    instruction <= 4'h0;
     pc <= 8'h0;
   end
-  instruction = frame[16:13];
+  else
+    instruction <= frame[16:13];
   case(instruction)
     4'h0: dout <= 8'h00;// NOP
     4'h1: // LOAD from register file instruction
@@ -87,12 +65,12 @@ begin
     end
     4'h5: // AND two inputs
     begin//  store in regfile   Out Reg A        &      Out Reg B
-      regfile[frame[4:1]] <= regfile[frame[12:9]] - regfile[frame[8:5]];
+      regfile[frame[4:1]] <= regfile[frame[12:9]] & regfile[frame[8:5]];
       dout <= regfile[frame[4:1]];
     end
     4'h6: // OR two inputs
     begin //  store in regfile   Out Reg A       |      Out Reg B
-      regfile[frame[4:1]] <= regfile[frame[12:9]] - regfile[frame[8:5]];
+      regfile[frame[4:1]] <= regfile[frame[12:9]] | regfile[frame[8:5]];
       dout <= regfile[frame[4:1]];
     end
     4'h7: // MOV two inputs
@@ -127,12 +105,14 @@ begin
     end
     4'hD: // JNE 
     begin
-      pc <= frame[12:5];
+      if (frame[12:9] !== frame[8:5])
+      	pc <= frame[4:1];
       dout <= pc;
     end
     4'hE: // JEQ
     begin
-      pc <= frame[12:5];
+      if (frame[12:9] == frame[8:5])
+      	pc <= frame[4:1];
       dout <= pc;
     end
     default: // INVALID
