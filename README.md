@@ -29,12 +29,24 @@ This current implementation on the ICE5LP4K is meant to be driven with an extern
 |   4'b0101  | AND     | 2x 4'b SRC 4'b DST |
 |   4'b0110  | OR      | 2x 4'b SRC 4'b DST |
 |   4'b0111  | MOVE    | 4'b SRC 4'b DST    |
-|   4'b1001  | LOAD RAM| 5'b RAM SRC 4'b DST| 
-|   4'b1010  | STRE RAM| 4'b SRC 5'b RAM DST|
-|   4'b1011  | LOAD FLS| 6'b FLS SRC 4'b DST|
-|   4'b1100  | STRE FLS| 4'b SRC 6'b FLS DST|
+|   4'b1001  | LDR     | 5'b RAM SRC 4'b DST| 
+|   4'b1010  | STRR    | 4'b SRC 5'b RAM DST|
+|   4'b1011  | LFLS    | 6'b FLS SRC 4'b DST|
+|   4'b1100  | SFLS    | 4'b SRC 6'b FLS DST|
 |   4'b1101  | JMP     | 8'b PC Location    |
-|   4'b1110  | JNE     | 2x 4'b int 8'b PC  |
-|   4'b1111  | JEQ     | 2x 4'b int 8'b PC  |
+|   4'b1110  | JNE     | 2x 4'b SRC 8'b PC  |
+|   4'b1111  | JEQ     | 2x 4'b SRC 8'b PC  |
 
 Additional details are coming soon include system block diagram!
+
+### Examples of Assembly + Machine Code ###
+|ASM/MC    | Opcode | input 1 (width) | input 2 (width) | input 3 (width) |
+|----------|--------|-----------------|-----------------|-----------------|
+| Assembly |  AND   | R0 (4'b0000) 4b | R1 (4'b0001) 4b | R2 (4'b0010) 4b |
+| Machine Code |0101| 0000            | 0001            | 0010            |
+|----------|--------|-----------------|-----------------|-----------------|
+| Assembly | JNE    | R5 (4'b0101) 4b | R6 (4'b0110) 4b | PC(8'b01000011) |
+| Machine Code |1110| 0101            | 0110            | 01000011        |
+|----------|--------|-----------------|-----------------|-----------------|
+| Assembly | LDR    | 5'h16   5b      | R12(4'b1010) 4b |-----------------|
+| Machine Code |1001| 00110           | 1010            |-----------------|
