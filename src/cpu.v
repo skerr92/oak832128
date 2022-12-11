@@ -105,13 +105,13 @@ begin
     end
     4'hD: // JNE 
     begin
-      if (frame[12:9] !== frame[8:5])
+      if (regfile[frame[12:9]] !== regfile[frame[8:5]])
       	pc <= frame[4:1];
       dout <= pc;
     end
     4'hE: // JEQ
     begin
-      if (frame[12:9] == frame[8:5])
+      if (regfile[frame[12:9]] == regfile[frame[8:5]])
       	pc <= frame[4:1];
       dout <= pc;
     end
