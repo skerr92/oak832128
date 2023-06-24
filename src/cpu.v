@@ -115,6 +115,10 @@ begin
       	pc <= frame[4:1];
       dout <= pc;
     end
+    4'hF: // not operation
+    begin
+      regfile[frame[12:9]] <= ~regfile[frame[12:9]];
+    end
     default: // INVALID
       dout <= 8'h00;
   endcase
