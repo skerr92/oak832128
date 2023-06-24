@@ -29,13 +29,14 @@ This current implementation on the ICE5LP4K is meant to be driven with an extern
 |   4'b0101  | AND     | 2x 4'b SRC 4'b DST |
 |   4'b0110  | OR      | 2x 4'b SRC 4'b DST |
 |   4'b0111  | MOVE    | 4'b SRC 4'b DST    |
-|   4'b1001  | LDR     | 5'b RAM SRC 4'b DST| 
-|   4'b1010  | STRR    | 4'b SRC 5'b RAM DST|
-|   4'b1011  | LFLS    | 6'b FLS SRC 4'b DST|
-|   4'b1100  | SFLS    | 4'b SRC 6'b FLS DST|
-|   4'b1101  | JMP     | 8'b PC Location    |
-|   4'b1110  | JNE     | 2x 4'b SRC 8'b PC  |
-|   4'b1111  | JEQ     | 2x 4'b SRC 8'b PC  |
+|   4'b1000  | LDR     | 5'b RAM SRC 4'b DST| 
+|   4'b1001  | STRR    | 4'b SRC 5'b RAM DST|
+|   4'b1010  | LFLS    | 6'b FLS SRC 4'b DST|
+|   4'b1011  | SFLS    | 4'b SRC 6'b FLS DST|
+|   4'b1100  | JMP     | 8'b PC Location    |
+|   4'b1101  | JNE     | 2x 4'b SRC 8'b PC  |
+|   4'b1110  | JEQ     | 2x 4'b SRC 8'b PC  |
+|   4'b1111  | NOT     | 4'b SRC Reg        |
 
 Additional details are coming soon include system block diagram!
 
